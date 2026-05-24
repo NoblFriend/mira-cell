@@ -16,9 +16,6 @@ dependencies = [
     "fire>=0.6,<1.0",
     "pillow>=10.0",
     "numpy>=1.26,<3.0",
-    "tensorboard>=2.16",
-    "matplotlib>=3.8",
-    "tqdm>=4.66",
 ]
 
 [project.scripts]
@@ -27,16 +24,17 @@ form-infer = "form_reader_and_evaluator.infer:cli"
 form-download-data = "form_reader_and_evaluator.utils.download:cli"
 
 [build-system]
-requires = ["poetry-core>=1.8"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.poetry]
-package-mode = true
-packages = [{ include = "form_reader_and_evaluator" }]
+[tool.hatch.build.targets.wheel]
+packages = ["form_reader_and_evaluator"]
 
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.7"
-ruff = "^0.5"
+[dependency-groups]
+dev = [
+    "pre-commit>=3.7",
+    "ruff>=0.5",
+]
 
 [tool.ruff]
 line-length = 100

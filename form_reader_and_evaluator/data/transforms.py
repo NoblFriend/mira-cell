@@ -1,10 +1,3 @@
-"""Training- and validation-time image transforms.
-
-A real-life cell on a scanned form is a frame around a single hand-drawn glyph,
-so we synthesize that look at train time: take a clean NIST letter, then
-overlay a random pre-rendered cell-frame on top via element-wise minimum.
-"""
-
 from __future__ import annotations
 
 from pathlib import Path
@@ -34,9 +27,7 @@ class AddFrameTensor:
             arr = np.array(img, dtype=np.float32) / 255.0
             self.cells.append(torch.from_numpy(arr).unsqueeze(0))
         if not self.cells:
-            raise FileNotFoundError(
-                f"No cell-frame variants found in {variants_dir!r}. Did you run dvc pull?"
-            )
+            raise FileNotFoundError(f"No cell-frame variants found in {variants_dir!r}")
 
     def __call__(self, x: torch.Tensor) -> torch.Tensor:
         c, _h, _w = x.shape

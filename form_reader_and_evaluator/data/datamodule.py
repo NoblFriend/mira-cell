@@ -1,5 +1,3 @@
-"""LightningDataModule built on top of ImageFolder, with hint-aware class layout."""
-
 from __future__ import annotations
 
 from collections.abc import Sequence

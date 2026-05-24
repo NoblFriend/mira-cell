@@ -1,0 +1,6 @@
+outs:
+- md5: 84d4069639cc5e3b28faeb494de8a815.dir
+  size: 6199
+  nfiles: 10
+  hash: md5
+  path: cell_variants

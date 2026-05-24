@@ -1,5 +1,3 @@
-"""Hint masks: a binary 28-vector marking which classes are allowed for a sample."""
-
 from __future__ import annotations
 
 import random
@@ -8,7 +6,6 @@ import numpy as np
 import torch
 
 from form_reader_and_evaluator.constants import (
-    CLASS_NAMES,
     EMPTY_IDX,
     JUNK_IDX,
     LETTER_TO_IDX,
@@ -89,6 +86,3 @@ def allowed_letters_to_mask(
     mask[:, EMPTY_IDX] = 1.0
     mask[:, JUNK_IDX] = 1.0
     return mask
-
-
-__all__ = ["sample_hint_mask", "no_hint_mask", "allowed_letters_to_mask", "CLASS_NAMES"]

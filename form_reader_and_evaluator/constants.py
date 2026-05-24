@@ -1,8 +1,3 @@
-"""Static class layout for the letter classifier.
-
-These never change across configs; they pin the model output ordering.
-"""
-
 LETTERS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 CLASS_NAMES = LETTERS + ["<empty>", "<junk>"]
 NUM_CLASSES = len(CLASS_NAMES)

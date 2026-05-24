@@ -1,8 +1,3 @@
-"""Inference entry point — kept lean so it does not pull in the training stack.
-
-Skeleton: real production-prep work happens in Task 3 (ONNX/TensorRT export).
-"""
-
 from __future__ import annotations
 
 from pathlib import Path

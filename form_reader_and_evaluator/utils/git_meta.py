@@ -1,5 +1,3 @@
-"""Tiny helper to grab git commit id for experiment logging."""
-
 from __future__ import annotations
 
 import subprocess

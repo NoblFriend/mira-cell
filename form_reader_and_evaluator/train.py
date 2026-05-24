@@ -1,5 +1,3 @@
-"""Training entry point. Run via `form-train` or `python -m form_reader_and_evaluator.train`."""
-
 from __future__ import annotations
 
 from pathlib import Path

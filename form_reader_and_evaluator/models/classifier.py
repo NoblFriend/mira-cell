@@ -1,5 +1,3 @@
-"""ResNet18 backbone + hint-encoder + fusion head, wrapped as a LightningModule."""
-
 from __future__ import annotations
 
 import lightning as L

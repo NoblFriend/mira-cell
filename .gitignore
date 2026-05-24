@@ -55,8 +55,14 @@ logs/
 lightning_logs/
 tb_logs/
 
-# Data and model artefacts — must live in DVC, never in git
-/data/
+# Data and model artefacts — must live in DVC, never in git.
+# .dvc pointer files MUST be tracked, so re-include them explicitly.
+/data/*
+!/data/*.dvc
+!/data/.gitignore
+/models/*
+!/models/*.dvc
+!/models/.gitignore
 *.csv
 *.json
 *.h5
