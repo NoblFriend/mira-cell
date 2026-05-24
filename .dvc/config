@@ -1,11 +1,9 @@
 [core]
     remote = data
     autostage = true
-
 ['remote "data"']
-    url = gdrive://1xK1exiSiBTNx7DUB8AAjPAX6NeXvp_Uc
-    gdrive_acknowledge_abuse = true
-
+    url = webdavs://webdav.yandex.ru/form-reader-and-evaluator/data
+    user = noblfriend
 ['remote "models"']
-    url = gdrive://1dKk2K_vApDMhDPJFJxgmSik6hizyt2hm
-    gdrive_acknowledge_abuse = true
+    url = webdavs://webdav.yandex.ru/form-reader-and-evaluator/models
+    user = noblfriend
