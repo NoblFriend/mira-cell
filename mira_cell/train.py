@@ -8,10 +8,10 @@ from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import MLFlowLogger
 from omegaconf import DictConfig, OmegaConf
 
-from form_reader_and_evaluator.data.datamodule import NISTDataModule
-from form_reader_and_evaluator.models.classifier import LetterClassifier
-from form_reader_and_evaluator.utils.download import download_data
-from form_reader_and_evaluator.utils.git_meta import current_commit_id
+from mira_cell.data.datamodule import NISTDataModule
+from mira_cell.models.classifier import LetterClassifier
+from mira_cell.utils.download import download_data
+from mira_cell.utils.git_meta import current_commit_id
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 

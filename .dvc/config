@@ -1,9 +1,9 @@
 [core]
     remote = data
     autostage = true
+
 ['remote "data"']
-    url = webdavs://webdav.yandex.ru/form-reader-and-evaluator/data
-    user = noblfriend
+    url = ../form-reader-and-evaluator-dvc-storage/data
+
 ['remote "models"']
-    url = webdavs://webdav.yandex.ru/form-reader-and-evaluator/models
-    user = noblfriend
+    url = ../form-reader-and-evaluator-dvc-storage/models

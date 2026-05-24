@@ -7,8 +7,8 @@ import torch.nn.functional as F
 from omegaconf import DictConfig
 from torchvision import models
 
-from form_reader_and_evaluator.constants import EMPTY_IDX, JUNK_IDX, NUM_CLASSES
-from form_reader_and_evaluator.data.hint import no_hint_mask, sample_hint_mask
+from mira_cell.constants import EMPTY_IDX, JUNK_IDX, NUM_CLASSES
+from mira_cell.data.hint import no_hint_mask, sample_hint_mask
 
 
 def _build_backbone(name: str) -> tuple[nn.Module, int]:

@@ -7,9 +7,9 @@ from omegaconf import OmegaConf
 from PIL import Image
 from torchvision import transforms
 
-from form_reader_and_evaluator.constants import CLASS_NAMES
-from form_reader_and_evaluator.data.hint import allowed_letters_to_mask
-from form_reader_and_evaluator.models.classifier import LetterClassifier
+from mira_cell.constants import CLASS_NAMES
+from mira_cell.data.hint import allowed_letters_to_mask
+from mira_cell.models.classifier import LetterClassifier
 
 
 def _build_eval_transform(img_size: int, num_channels: int) -> transforms.Compose:

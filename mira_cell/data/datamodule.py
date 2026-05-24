@@ -9,12 +9,12 @@ from omegaconf import DictConfig
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from torchvision.datasets import ImageFolder
 
-from form_reader_and_evaluator.constants import (
+from mira_cell.constants import (
     CLASS_NAMES,
     LETTER_TO_IDX,
     NUM_CLASSES,
 )
-from form_reader_and_evaluator.data.transforms import build_transforms
+from mira_cell.data.transforms import build_transforms
 
 
 class TargetRemap:

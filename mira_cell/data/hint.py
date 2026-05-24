@@ -5,7 +5,7 @@ import random
 import numpy as np
 import torch
 
-from form_reader_and_evaluator.constants import (
+from mira_cell.constants import (
     EMPTY_IDX,
     JUNK_IDX,
     LETTER_TO_IDX,
