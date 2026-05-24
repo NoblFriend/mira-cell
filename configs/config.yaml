@@ -1,0 +1,16 @@
+defaults:
+  - data: nist
+  - model: resnet18_hint
+  - optimizer: adamw_cosine
+  - trainer: default
+  - logger: mlflow
+  - _self_
+
+seed: 2026
+run_name: form-reader
+
+paths:
+  data_dvc_target: data
+  model_dvc_target: models
+  plots_dir: plots
+  checkpoints_dir: checkpoints

@@ -1,0 +1,13 @@
+backbone: resnet18
+context_dim: 128
+fusion_proj_dim: 128
+head_hidden_dim: 512
+head_hidden_dim_2: 256
+head_dropout_1: 0.2
+head_dropout_2: 0.2
+head_dropout_3: 0.1
+hint_residual_dim: 64
+hint_residual_alpha_init: 0.05
+
+hint_prob: 0.85
+hint_ah_end_idx: 8

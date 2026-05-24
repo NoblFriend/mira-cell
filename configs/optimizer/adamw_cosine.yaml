@@ -1,0 +1,4 @@
+lr: 3.0e-4
+weight_decay: 1.0e-4
+scheduler_t_max: 50
+scheduler_eta_min: 1.0e-6

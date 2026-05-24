@@ -1,0 +1,78 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Tests / coverage
+.coverage
+.tox/
+.pytest_cache/
+htmlcov/
+
+# Hydra outputs
+outputs/
+multirun/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Lightning / TensorBoard logs
+logs/
+lightning_logs/
+tb_logs/
+
+# Data and model artefacts — must live in DVC, never in git
+/data/
+*.csv
+*.json
+*.h5
+*.npz
+*.pkl
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.engine
+*.plan
+
+# DVC
+/.dvc/cache
+/.dvc/tmp
+/.dvc/plots
+
+# OS
+Thumbs.db

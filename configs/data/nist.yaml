@@ -1,0 +1,29 @@
+img_size: 128
+num_channels: 3
+norm_mean: [0.5, 0.5, 0.5]
+norm_std: [0.5, 0.5, 0.5]
+
+data_dir: data
+train_subdir: train
+val_subdir: val
+cell_variants_dir: data/cell_variants
+
+batch_size: 256
+num_workers: 8
+pin_memory: false
+persistent_workers: true
+sampler_mode: uniform
+
+elastic_alpha: 10.0
+elastic_sigma: 5.0
+elastic_p: 0.5
+affine_degrees: 20.0
+affine_translate: [0.15, 0.15]
+affine_scale: [0.7, 1.3]
+affine_shear: 7.0
+affine_fill: 255
+affine_p: 0.9
+cell_shift_translate: [0.08, 0.08]
+blur_kernel: 3
+blur_sigma: [0.3, 1.8]
+blur_p: 0.4

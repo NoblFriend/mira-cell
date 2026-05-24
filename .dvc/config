@@ -1,0 +1,11 @@
+[core]
+    remote = data
+    autostage = true
+
+['remote "data"']
+    url = gdrive://1FORM_READER_DATA_FOLDER_ID
+    gdrive_acknowledge_abuse = true
+
+['remote "models"']
+    url = gdrive://1FORM_READER_MODELS_FOLDER_ID
+    gdrive_acknowledge_abuse = true
