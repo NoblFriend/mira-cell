@@ -17,12 +17,17 @@ dependencies = [
     "numpy>=1.26,<3.0",
     "dvc>=3.67.1",
     "httpx>=0.28.1",
+    "onnx>=1.16,<2.0",
+    "onnxruntime>=1.18,<2.0",
+    "fastapi>=0.108,<0.109",
+    "starlette>=0.32,<0.33",
 ]
 
 [project.scripts]
 mira-train = "mira_cell.train:cli"
 mira-infer = "mira_cell.infer:cli"
 mira-download-data = "mira_cell.utils.download:cli"
+mira-export = "mira_cell.export:cli"
 
 [build-system]
 requires = ["hatchling"]

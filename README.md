@@ -88,7 +88,7 @@ data/
 - train использует только синтетические композиции «NIST-глиф + рамка
   ячейки» — реальные сканы остаются исключительно для офлайн-проверки
 
-Данные хранятся в **DVC** (см. раздел *Setup*) и доступны проверяющему
+Данные хранятся в **DVC** (см. раздел _Setup_) и доступны проверяющему
 через публичный GitHub Release этого репозитория.
 
 ---
@@ -223,6 +223,50 @@ uv run mira-infer \
 
 ---
 
+## Production preparation
+
+### Экспорт в ONNX
+
+Прод-формат модели — **ONNX**. Экспорт берёт Lightning `.ckpt` и пишет
+граф с двумя входами (`image` `[B,3,128,128]`, `hint_mask` `[B,28]`) и
+выходом `logits` `[B,28]`; batch — динамическая ось. После записи граф
+проверяется `onnx.checker` и сверяется с PyTorch (max abs diff логитов):
+
+```bash
+uv run mira-export onnx \
+  --checkpoint=models/best.ckpt \
+  --output=models/model.onnx
+```
+
+Препроцессинг (resize/normalize) и постпроцессинг (softmax → top-1,
+`confidence`, `margin`) остаются вне графа — на стороне клиента (см.
+`scripts/query_server.py`), чтобы граф был переносимым и лёгким.
+
+## Infer через сервер (MLflow Serving)
+
+Регистрация ONNX-модели в MLflow (тот же tracking-сервер
+`http://127.0.0.1:8080`) с подписью входов/выходов:
+
+```bash
+uv run mira-export mlflow --checkpoint=models/best.ckpt
+# -> печатает model_uri вида runs:/<run_id>/model
+```
+
+Поднять REST-сервер инференса и постучаться тест-клиентом:
+
+```bash
+mlflow models serve -m runs:/<run_id>/model -p 5001 --env-manager local
+
+uv run python scripts/query_server.py \
+  --image_path=data/val/A/<example>.png \
+  --allowed=ABCDEF
+```
+
+Клиент препроцессит PNG, шлёт `POST /invocations` и печатает
+`{label, confidence, margin}`.
+
+---
+
 ## Overall
 
 ```
@@ -232,6 +276,7 @@ mira-cell/
 │   ├── constants.py                # CLASS_NAMES, LETTER_TO_IDX, …
 │   ├── train.py                    # hydra entry point
 │   ├── infer.py                    # lean inference CLI
+│   ├── export.py                   # ONNX export + MLflow model registration
 │   ├── data/
 │   │   ├── datamodule.py           # NISTDataModule (LightningDataModule)
 │   │   ├── hint.py                 # sample_hint_mask, allowed_letters_to_mask
@@ -248,6 +293,8 @@ mira-cell/
 │   ├── optimizer/adamw_cosine.yaml
 │   ├── trainer/{default,smoke}.yaml
 │   └── logger/mlflow.yaml
+├── scripts/                        # вспомогательные скрипты
+│   └── query_server.py             # тест-клиент для MLflow Serving
 ├── plots/                          # графики обучения (PNG)
 ├── .dvc/config                     # два remote: data, models (local)
 ├── .pre-commit-config.yaml         # pre-commit-hooks + ruff + prettier
