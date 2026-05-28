@@ -7,7 +7,7 @@ defaults:
   - _self_
 
 seed: 2026
-run_name: form-reader
+run_name: mira-cell
 
 paths:
   data_dvc_target: data

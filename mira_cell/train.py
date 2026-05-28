@@ -4,7 +4,7 @@ from pathlib import Path
 
 import hydra
 import lightning as L
-from lightning.pytorch.callbacks import LearningRateMonitor, ModelCheckpoint
+from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor, ModelCheckpoint
 from lightning.pytorch.loggers import MLFlowLogger
 from omegaconf import DictConfig, OmegaConf
 
@@ -14,6 +14,7 @@ from mira_cell.utils.download import download_data
 from mira_cell.utils.git_meta import current_commit_id
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+CONFIG_DIR = str(REPO_ROOT / "configs")
 
 
 def _flat(cfg: DictConfig) -> dict:
@@ -42,7 +43,12 @@ def _make_logger(cfg: DictConfig) -> MLFlowLogger:
 
 
 def _make_model(cfg: DictConfig) -> LetterClassifier:
-    merged = OmegaConf.merge(cfg.model, cfg.optimizer)
+    merged = OmegaConf.create(
+        {
+            **OmegaConf.to_container(cfg.model, resolve=True),
+            **OmegaConf.to_container(cfg.optimizer, resolve=True),
+        }
+    )
     return LetterClassifier(merged)
 
 
@@ -62,6 +68,16 @@ def _make_trainer(
         filename="epoch={epoch:02d}-AH={" + monitor + ":.4f}",
     )
     lr_monitor = LearningRateMonitor(logging_interval="step")
+    callbacks = [ckpt, lr_monitor]
+    if cfg.trainer.early_stopping:
+        callbacks.append(
+            EarlyStopping(
+                monitor=cfg.trainer.es_monitor,
+                mode=cfg.trainer.es_mode,
+                patience=cfg.trainer.es_patience,
+                min_delta=cfg.trainer.es_min_delta,
+            )
+        )
     return L.Trainer(
         default_root_dir=str(REPO_ROOT / "lightning_logs"),
         accelerator=cfg.trainer.accelerator,
@@ -72,7 +88,7 @@ def _make_trainer(
         limit_val_batches=cfg.trainer.limit_val_batches or 1.0,
         gradient_clip_val=cfg.trainer.gradient_clip_val,
         deterministic=cfg.trainer.deterministic,
-        callbacks=[ckpt, lr_monitor],
+        callbacks=callbacks,
         logger=logger,
     )
 
@@ -80,7 +96,7 @@ def _make_trainer(
 def train(cfg: DictConfig) -> None:
     L.seed_everything(cfg.seed, workers=True)
 
-    download_data(target=cfg.paths.data_dvc_target, repo_root=str(REPO_ROOT))
+    download_data(target=cfg.paths.data_dvc_target)
 
     checkpoints_dir = REPO_ROOT / cfg.paths.checkpoints_dir
     checkpoints_dir.mkdir(parents=True, exist_ok=True)
@@ -96,7 +112,7 @@ def train(cfg: DictConfig) -> None:
     trainer.fit(model, datamodule=datamodule)
 
 
-@hydra.main(version_base="1.3", config_path="../configs", config_name="config")
+@hydra.main(version_base="1.3", config_path=CONFIG_DIR, config_name="config")
 def main(cfg: DictConfig) -> None:
     train(cfg)
 

@@ -1,8 +1,14 @@
 accelerator: auto
 precision: 32-true
-max_epochs: 120
+max_epochs: 50
 log_every_n_steps: 5
 limit_train_batches: null
 limit_val_batches: null
 gradient_clip_val: null
 deterministic: false
+
+early_stopping: true
+es_monitor: val/loss
+es_mode: min
+es_patience: 10
+es_min_delta: 0.0

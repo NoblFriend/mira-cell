@@ -57,6 +57,9 @@ class LetterClassifier(L.LightningModule):
 
         self.criterion = nn.CrossEntropyLoss()
 
+        self._ah_correct = 0
+        self._ah_total = 0
+
     def encode_image(self, x: torch.Tensor) -> torch.Tensor:
         return self.backbone(x).flatten(1)
 
@@ -99,6 +102,10 @@ class LetterClassifier(L.LightningModule):
         self.log("train/alpha", self.alpha.detach(), on_epoch=True, on_step=False)
         return loss
 
+    def on_validation_epoch_start(self) -> None:
+        self._ah_correct = 0
+        self._ah_total = 0
+
     def validation_step(self, batch, _batch_idx):
         x, y = batch
         logits = self(x, None)
@@ -116,8 +123,12 @@ class LetterClassifier(L.LightningModule):
         pred_hint = self(x, hint_mask).argmax(dim=-1)
         eval_mask = y < self.cfg.hint_ah_end_idx
         if eval_mask.any():
-            acc_hint = (pred_hint[eval_mask] == y[eval_mask]).float().mean()
-            self.log("val/acc_hint_AH", acc_hint, on_epoch=True, on_step=False)
+            self._ah_correct += int((pred_hint[eval_mask] == y[eval_mask]).sum().item())
+            self._ah_total += int(eval_mask.sum().item())
+
+    def on_validation_epoch_end(self) -> None:
+        acc_hint = self._ah_correct / self._ah_total if self._ah_total else 0.0
+        self.log("val/acc_hint_AH", torch.tensor(acc_hint, device=self.device))
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(
