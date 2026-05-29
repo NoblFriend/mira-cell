@@ -1,9 +1,7 @@
 [core]
     remote = data
     autostage = true
-
 ['remote "data"']
-    url = ../form-reader-and-evaluator-dvc-storage/data
-
+    url = https://dagshub.com/NoblFriend/mira-cell.dvc
 ['remote "models"']
-    url = ../form-reader-and-evaluator-dvc-storage/models
+    url = https://dagshub.com/NoblFriend/mira-cell-models.dvc

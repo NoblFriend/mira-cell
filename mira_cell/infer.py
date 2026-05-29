@@ -11,6 +11,7 @@ from torchvision import transforms
 from mira_cell.constants import CLASS_NAMES
 from mira_cell.data.hint import allowed_letters_to_mask
 from mira_cell.models.classifier import LetterClassifier
+from mira_cell.utils.download import download_data
 
 
 def _build_eval_transform(img_size: int, num_channels: int) -> transforms.Compose:
@@ -32,6 +33,8 @@ def predict(
     img_size: int = 128,
     num_channels: int = 3,
 ) -> dict:
+    download_data(target="models")
+
     cfg = OmegaConf.load(model_config)
     cfg = OmegaConf.merge(
         cfg,

@@ -3,3 +3,4 @@ outs:
   size: 141929980
   hash: md5
   path: best.ckpt
+  remote: models
