@@ -29,7 +29,9 @@ def _onnx_session(onnx_path: Path):
     return ort.InferenceSession(str(onnx_path), providers=["CPUExecutionProvider"])
 
 
-def _verify(model: LetterClassifier, onnx_path: Path, num_channels: int, img_size: int, atol: float) -> float:
+def _verify(
+    model: LetterClassifier, onnx_path: Path, num_channels: int, img_size: int, atol: float
+) -> float:
     image = torch.randn(4, num_channels, img_size, img_size)
     hint_mask = torch.ones(4, NUM_CLASSES)
     with torch.inference_mode():
