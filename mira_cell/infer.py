@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import fire
+import torch
 from omegaconf import OmegaConf
 from PIL import Image
 from torchvision import transforms
@@ -49,9 +50,12 @@ def predict(
     hint_mask = allowed_letters_to_mask(allowed_list, batch_size=1, device=image.device)
 
     result = model.predict_one(image, hint_mask=hint_mask)
-    result["label"] = CLASS_NAMES[result["class_idx"]]
-    result.pop("probs", None)
-    return result
+    top2 = torch.topk(result["probs"], 2).values
+    return {
+        "label": CLASS_NAMES[result["class_idx"]],
+        "confidence": result["confidence"],
+        "margin": float(top2[0] - top2[1]),
+    }
 
 
 def cli() -> None:

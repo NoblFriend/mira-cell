@@ -8,17 +8,6 @@ from PIL import Image
 from torchvision import transforms
 
 
-class AddGaussianNoise:
-    def __init__(self, std: float, p: float) -> None:
-        self.std = std
-        self.p = p
-
-    def __call__(self, tensor: torch.Tensor) -> torch.Tensor:
-        if torch.rand(1).item() < self.p:
-            return tensor + torch.randn_like(tensor) * self.std
-        return tensor
-
-
 class AddFrameTensor:
     def __init__(self, variants_dir: str, out_size: int) -> None:
         self.cells: list[torch.Tensor] = []
